@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#141e14;--bg3:#1e2a1e;--gd:#223222;--gdone:#243e24;--gdoneb:#346034;--gold:#c9a84c;--gl:#e2c97e;--gd2:#8a6e32;--sv:#c8cdd4;--svb:#eaeef2;--svd:#8a9099;--tp:#e8ede8;--tm:#5a6e5a;--br:rgba(201,168,76,0.13);--red:#8b3a3a;--rb:#c05050;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--tp);min-height:100vh;}
+.app{max-width:420px;margin:0 auto;padding:18px 16px;}
+.hdr{text-align:center;padding:16px 0 5px;}
+.ey{font-size:11px;font-weight:600;letter-spacing:5px;text-transform:uppercase;margin-bottom:7px;background:linear-gradient(90deg,#8a9099,#eaeef2 40%,#c8cdd4 60%,#8a9099);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ti{font-family:'Playfair Display',serif;font-size:36px;font-weight:500;letter-spacing:6px;text-transform:uppercase;background:linear-gradient(180deg,#eaeef2,#c8cdd4 40%,#9aa0a8 70%,#c8cdd4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:3px;}
+.tl0{height:1px;background:linear-gradient(90deg,transparent,#8a9099,#c8cdd4,#8a9099,transparent);margin-bottom:6px;}
+.dt{font-size:13px;color:var(--sv);letter-spacing:1px;}
+.sp0{height:1px;background:linear-gradient(90deg,transparent,var(--svd),transparent);margin:10px 0 13px;}
+.tabs{display:flex;border:1px solid var(--br);overflow:hidden;margin-bottom:15px;}
+.tab{flex:1;text-align:center;padding:10px;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;color:var(--tm);transition:all .3s;background:transparent;}
+.tab.active{background:var(--gd);color:var(--sv);border-bottom:1px solid var(--svd);}
+.view{display:none;}.view.active{display:block;}
+.prow{display:flex;gap:12px;align-items:flex-start;margin-bottom:0;}
+.sleft{flex:0 0 126px;}
+.bigpct{font-family:'Playfair Display',serif;font-size:48px;font-weight:400;color:var(--gold);line-height:1;margin-bottom:10px;}
+.sg{display:flex;flex-direction:column;gap:5px;}
+.sr{display:flex;align-items:baseline;gap:7px;}
+.sn{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;}
+.sl2{font-size:9px;font-weight:500;letter-spacing:1.5px;color:var(--sv);text-transform:uppercase;}
+.gc{color:var(--gold);}.rc{color:var(--gold);}.sc{color:var(--sv);}
+.sright{flex:1;overflow:hidden;}
+.sright svg{display:block;width:100%;}
+.prog-phrase{text-align:center;padding:3px 0 3px;font-size:11px;font-weight:600;letter-spacing:5px;text-transform:uppercase;background:linear-gradient(90deg,#8a9099,#eaeef2 40%,#c8cdd4 60%,#8a9099);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.track-wrap{margin-bottom:14px;}
+.track-labels{display:flex;justify-content:space-between;margin-bottom:5px;}
+.trl{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--tm);text-transform:uppercase;}
+.track-road{height:10px;background:#0e1a0e;border-radius:5px;border:1px solid #223022;overflow:hidden;position:relative;}
+.track-road-lines{position:absolute;top:50%;transform:translateY(-50%);width:100%;height:2px;background:repeating-linear-gradient(90deg,transparent,transparent 10px,rgba(255,255,255,.04) 10px,rgba(255,255,255,.04) 18px);}
+.track-fill{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,#6e5020,#c9a84c,#e2c97e);border-radius:5px;transition:width .9s cubic-bezier(.4,0,.2,1);width:0%;}
+.qc{background:var(--bg3);border:1px solid var(--br);border-left:2px solid var(--svd);padding:10px 14px;margin-bottom:16px;transition:all .5s;cursor:pointer;}
+.qt{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;line-height:1.6;color:var(--tp);font-style:italic;}
+.qa{font-size:9px;font-weight:600;letter-spacing:2px;color:var(--svd);margin-top:5px;text-transform:uppercase;}
+.qc.new{border-left-color:var(--gold);background:#263426;}
+.ads{margin-bottom:17px;}
+.adl{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;background:linear-gradient(90deg,var(--svd),var(--svb),var(--svd));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.adr{display:flex;gap:8px;}
+.inp{flex:1;background:var(--bg3);border:1px solid var(--br);padding:10px 13px;color:var(--tp);font-size:13px;font-family:'Montserrat',sans-serif;outline:none;}
+.inp::placeholder{color:var(--tm);font-weight:300;}
+.inp:focus{border-color:var(--svd);}
+.ab{background:transparent;color:var(--sv);border:1px solid var(--svd);padding:10px 13px;font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;white-space:nowrap;}
+.ab:hover{background:var(--gd);}
+.ab:active{transform:scale(.97);}
+.slb{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,var(--svd),var(--svb),var(--svd));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.slb::after{content:'';flex:1;height:1px;background:var(--br);}
+.tl2{display:flex;flex-direction:column;gap:5px;margin-bottom:20px;}
+.ti2{background:var(--bg3);border:1px solid var(--br);padding:12px 14px;display:flex;align-items:center;gap:12px;transition:all .3s;cursor:pointer;}
+.ti2:hover{border-color:rgba(200,205,212,.2);background:var(--gd);}
+.ti2.done{background:var(--gdone);border-color:var(--gdoneb);}
+.ti2.done .tn{text-decoration:line-through;color:var(--svd);}
+.tc{width:19px;height:19px;border:1.5px solid var(--svd);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ti2.done .tc{border-color:var(--sv);}
+.ck{display:none;font-size:11px;color:var(--svb);font-weight:700;}
+.ti2.done .ck{display:block;}
+.tif{flex:1;}
+.tn{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;letter-spacing:1.5px;color:var(--tp);text-transform:uppercase;line-height:1.4;}
+.td2{font-size:13px;color:var(--tm);cursor:pointer;padding:4px;transition:color .2s;}
+.td2:hover{color:var(--rb);}
+.emp{text-align:center;padding:24px 20px;color:var(--tm);border:1px dashed var(--br);}
+.ei{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;margin-bottom:8px;}
+.emp p{font-size:11px;letter-spacing:1px;text-transform:uppercase;line-height:1.6;}
+.wnav{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px;}
+.wb{background:transparent;border:1px solid var(--br);color:var(--tm);padding:7px 13px;cursor:pointer;font-size:14px;transition:all .2s;}
+.wb:hover{border-color:var(--svd);color:var(--sv);}
+.wlb{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--tp);letter-spacing:1px;}
+.wg{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-bottom:17px;}
+.dc{background:var(--bg3);border:1px solid var(--br);padding:9px 3px;text-align:center;position:relative;}
+.dc.today{border-color:var(--svd);}
+.dn2{font-size:7px;font-weight:600;letter-spacing:1px;color:var(--tm);text-transform:uppercase;margin-bottom:4px;}
+.dc.today .dn2{color:var(--sv);}
+.dnum{font-family:'Playfair Display',serif;font-size:15px;color:var(--tp);margin-bottom:4px;}
+.dbw{height:30px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:3px;}
+.db{width:14px;border-radius:1px;min-height:2px;transition:height .4s;}
+.bdo{background:linear-gradient(to top,var(--gd2),var(--gl));}.be{background:var(--gd);}.bm{background:var(--red);}
+.dpct{font-family:'Playfair Display',serif;font-size:9px;font-weight:400;}
+.pd{color:var(--gd2);}.pe{color:var(--tm);}.pm{color:var(--rb);}
+.ddot{width:4px;height:4px;border-radius:50%;background:var(--rb);position:absolute;top:4px;right:4px;}
+.sc2{background:var(--bg3);border:1px solid var(--br);padding:0;margin-bottom:17px;overflow:hidden;}
+.srow2{display:flex;justify-content:space-between;align-items:center;padding:12px 15px;border-bottom:1px solid var(--br);}
+.srow2:last-child{border-bottom:none;}
+.slab2{font-size:11px;font-weight:300;color:var(--tm);}
+.sv2{font-family:'Playfair Display',serif;font-size:18px;font-weight:400;}
+.vg{color:var(--gold);}.vr{color:var(--rb);}.vm{color:var(--tm);}
+.ms{margin-bottom:13px;}
+.mi{background:var(--bg3);border:1px solid var(--br);border-left:2px solid var(--red);padding:9px 13px;margin-bottom:4px;display:flex;justify-content:space-between;}
+.mn2{font-size:12px;color:var(--svd);}.md{font-size:10px;color:var(--tm);}
+.pop-overlay{position:fixed;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;z-index:999;padding:24px;pointer-events:none;transition:background .35s ease;}
+.pop-overlay.show{background:rgba(0,0,0,.55);pointer-events:all;}
+.pop-card{width:100%;max-width:340px;background:#101e10;border:1.5px solid var(--gold);border-radius:4px;overflow:hidden;opacity:0;transform:scale(.82) translateY(22px);transition:opacity .38s cubic-bezier(.4,0,.2,1),transform .4s cubic-bezier(.34,1.28,.64,1);}
+.pop-overlay.show .pop-card{opacity:1;transform:scale(1) translateY(0);}
+.pop-header{background:linear-gradient(135deg,#162416,#243a1e);border-bottom:1px solid rgba(201,168,76,.22);padding:20px 26px 16px;text-align:center;}
+.pop-praise{font-family:'Playfair Display',serif;font-size:24px;font-weight:500;background:linear-gradient(180deg,#e2c97e,#c9a84c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px;margin-bottom:5px;}
+.pop-done-lbl{font-size:9px;font-weight:600;letter-spacing:2px;color:#4a6a4a;text-transform:uppercase;}
+.pop-body{padding:22px 26px 0;}
+.pop-quote{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;font-style:italic;line-height:1.65;color:#eaeef2;margin-bottom:6px;}
+.pop-author{font-size:9px;font-weight:600;letter-spacing:2px;color:var(--gd2);text-transform:uppercase;margin-bottom:18px;}
+.pop-divider{height:1px;background:rgba(201,168,76,.14);margin-bottom:14px;}
+.pop-stats{font-size:12px;color:var(--svd);line-height:1.55;font-weight:300;letter-spacing:.3px;}
+.pop-stats b{color:var(--sv);font-weight:500;}
+.pop-timer-wrap{height:2px;background:rgba(201,168,76,.12);margin:16px 0 0;border-radius:1px;overflow:hidden;}
+.pop-timer-fill{height:100%;width:100%;background:linear-gradient(90deg,var(--gd2),var(--gold));transform-origin:left;}
+</style></head><body>
+<div class="app">
+<div class="hdr">
+  <div class="ey">Prime Era Today</div>
+  <div style="display:inline-block"><div class="ti">My Day</div><div class="tl0"></div></div>
+  <div class="dt" id="hdt"></div>
+</div>
+<div class="sp0"></div>
+<div class="tabs">
+  <div class="tab active" onclick="sw('today')">День</div>
+  <div class="tab" onclick="sw('week')">Неделя</div>
+</div>
+<div class="view active" id="v-today">
+  <div class="prow">
+    <div class="sleft">
+      <div class="bigpct" id="pct">0%</div>
+      <div class="sg">
+        <div class="sr"><span class="sn gc" id="dn">0</span><span class="sl2">сделано</span></div>
+        <div class="sr"><span class="sn sc" id="tt">0</span><span class="sl2">всего</span></div>
+        <div class="sr"><span class="sn rc" id="lf">0</span><span class="sl2">осталось</span></div>
+      </div>
+    </div>
+    <div class="sright">
+      <svg id="scene" viewBox="0 0 252 118" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="sGr" cx="50%" cy="50%" r="50%"><stop id="sg1" offset="0%" stop-opacity=".5"/><stop id="sg2" offset="55%" stop-opacity=".1"/><stop offset="100%" stop-color="#000" stop-opacity="0"/></radialGradient>
+          <radialGradient id="aGr" cx="50%" cy="100%" r="70%"><stop id="ag1" offset="0%" stop-opacity=".35"/><stop offset="100%" stop-color="#000" stop-opacity="0"/></radialGradient>
+          <clipPath id="skyClip"><rect x="0" y="0" width="252" height="108"/></clipPath>
+        </defs>
+        <rect id="sky" width="252" height="118" fill="#0a1010"/>
+        <ellipse id="atm" cx="30" cy="110" rx="180" ry="55" fill="url(#aGr)" clip-path="url(#skyClip)"/>
+        <g id="stars" opacity=".85">
+          <circle cx="18" cy="10" r="1" fill="#eaeef2"/><circle cx="42" cy="6" r=".7" fill="#c8cdd4"/>
+          <circle cx="70" cy="14" r=".9" fill="#eaeef2"/><circle cx="98" cy="5" r=".7" fill="#c8cdd4"/>
+          <circle cx="140" cy="12" r="1.1" fill="#eaeef2"/><circle cx="175" cy="6" r=".7" fill="#c8cdd4"/>
+          <circle cx="205" cy="16" r=".8" fill="#eaeef2"/><circle cx="232" cy="8" r=".9" fill="#c8cdd4"/>
+          <circle cx="80" cy="26" r=".6" fill="#eaeef2"/><circle cx="192" cy="22" r=".7" fill="#eaeef2"/>
+          <circle cx="50" cy="38" r=".6" fill="#c8cdd4"/><circle cx="218" cy="34" r=".6" fill="#eaeef2"/>
+        </g>
+        <circle id="moon" cx="225" cy="20" r="10" fill="#dde8f4" opacity="0"/>
+        <circle id="moonS" cx="229" cy="17" r="8.5" fill="#0a1010" opacity="0"/>
+        <circle id="sgb" cx="6" cy="110" r="44" fill="#ff6600" opacity="0" clip-path="url(#skyClip)"/>
+        <circle id="sgm" cx="6" cy="110" r="26" fill="url(#sGr)" opacity=".8" clip-path="url(#skyClip)"/>
+        <path d="M6,110 A100,100 0 0,1 246,110" fill="none" stroke="#c9a84c" stroke-width=".6" stroke-dasharray="4,5" opacity=".1"/>
+        <circle id="sun" cx="6" cy="110" r="14" fill="#ff3300" clip-path="url(#skyClip)"/>
+        <circle id="sunI" cx="6" cy="110" r="7.5" fill="#ffee88" opacity=".35" clip-path="url(#skyClip)"/>
+        <rect x="0" y="107" width="252" height="11" fill="#0f180f"/>
+        <g id="stepGlows"></g><g id="steps"></g><g id="char"></g>
+      </svg>
+    </div>
+  </div>
+  <div class="prog-phrase" id="progPhrase">ХВАТИТ ЖДАТЬ</div>
+  <div class="track-wrap">
+    <div class="track-labels"><span class="trl">Старт</span><span class="trl">Цель</span></div>
+    <div class="track-road"><div class="track-road-lines"></div><div class="track-fill" id="barFill"></div></div>
+  </div>
+  <div class="qc" id="qc" onclick="nextQuote()">
+    <div class="qt" id="qt">Дисциплина — это не тюрьма. Это единственная дорога к свободе.</div>
+    <div class="qa" id="qa"></div>
+  </div>
+  <div class="ads"><div class="adl">Новая задача</div>
+    <div class="adr"><input type="text" class="inp" id="inp" placeholder="Введи задачу..."><button class="ab" onclick="addT()">+ Добавить</button></div>
+  </div>
+  <div id="psec"><div class="slb">Задачи дня</div><div class="tl2" id="pl"></div></div>
+  <div id="dsec" style="display:none"><div class="slb">Выполнено</div><div class="tl2" id="dl"></div></div>
+</div>
+<div class="view" id="v-week">
+  <div class="wnav"><button class="wb" onclick="cW(-1)">&#8249;</button><div class="wlb" id="wl"></div><button class="wb" onclick="cW(1)">&#8250;</button></div>
+  <div class="wg" id="wg"></div><div class="sc2" id="ws"></div><div id="mc"></div>
+</div>
+</div>
+<div class="pop-overlay" id="popOverlay" onclick="closePopup()">
+  <div class="pop-card" onclick="event.stopPropagation()">
+    <div class="pop-header"><div class="pop-praise" id="popPraise">Красавчик.</div><div class="pop-done-lbl" id="popDoneLbl"></div></div>
+    <div class="pop-body">
+      <div class="pop-quote" id="popQuote"></div><div class="pop-author" id="popAuthor"></div>
+      <div class="pop-divider"></div><div class="pop-stats" id="popStats"></div>
+      <div class="pop-timer-wrap"><div class="pop-timer-fill" id="popTimerFill"></div></div>
+    </div>
+  </div>
+</div>
+<script>
+function taskWord(n){const a=Math.abs(n)%100,b=a%10;if(a>=11&&a<=19)return'задач';if(b===1)return'задача';if(b>=2&&b<=4)return'задачи';return'задач';}
+function doneWord(n){const a=Math.abs(n)%100,b=a%10;if(a>=11&&a<=19)return'задач выполнено';if(b===1)return'задача выполнена';if(b>=2&&b<=4)return'задачи выполнено';return'задач выполнено';}
+function leftVerb(n){const a=Math.abs(n)%100,b=a%10;return(b===1&&!(a>=11&&a<=19))?'осталась':'осталось';}
+function playChime(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();[[523.25,0],[659.25,.12],[783.99,.24]].forEach(([freq,delay])=>{const osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.value=freq;const t=ctx.currentTime+delay;gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(.18,t+.06);gain.gain.exponentialRampToValueAtTime(.001,t+1.8);osc.start(t);osc.stop(t+1.8);});}catch(e){}}
+const lerp=(a,b,t)=>a+(b-a)*t;
+function lC(cs,t){const n=cs.length-1,i=Math.min(Math.floor(t*n),n-1),lt=(t*n)-i;return cs[i].map((v,j)=>Math.round(lerp(v,cs[i+1][j],lt)));}
+function H([r,g,b]){return'#'+[r,g,b].map(v=>Math.max(0,Math.min(255,v)).toString(16).padStart(2,'0')).join('');}
+const SKY=[[10,16,16],[12,18,20],[10,20,26],[8,22,28],[8,20,26],[10,22,28],[18,18,22],[24,14,14],[28,14,12],[18,12,14],[10,12,18]];
+const SC2=[[195,50,10],[215,85,20],[238,132,30],[252,185,48],[255,235,130],[255,185,48],[242,130,30],[220,78,18],[188,45,12],[155,35,8],[100,25,5]];
+const AC=[[185,58,14],[205,88,24],[228,130,38],[248,175,52],[100,140,210],[248,170,50],[232,120,35],[215,74,22],[185,48,14],[158,34,10],[80,20,30]];
+const PHRASES=['Хватит ждать','Уже в игре','Идёшь верно','Ты в потоке','Ты заряжен','Ты на пике','Сильная позиция','Не сдавай сейчас','Дожми до конца','Финальный рывок','Ты непобедим. Горжусь'];
+const MNF=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+const AQ=[
+  {q:"Дисциплина — это не тюрьма. Это единственная дорога к свободе.",a:""},
+  {q:"Ты уже дальше, чем большинство. Они даже не начали.",a:""},
+  {q:"Каждое выполненное дело — маленькая смерть слабого тебя.",a:""},
+  {q:"Не тот силён, кто не устаёт. А тот, кто встаёт снова.",a:""},
+  {q:"Твои действия сегодня — это твоя биография завтра.",a:""},
+  {q:"Сын свободы не может быть рабом тления.",a:"Илья"},
+  {q:"Большинство умрут с нереализованными мечтами. Ты — нет.",a:""},
+  {q:"Боль от дисциплины легче боли от сожаления.",a:""},
+  {q:"Делай когда не хочется — именно тогда ты и растёшь.",a:""},
+  {q:"Твоя будущая версия уже ждёт. Не заставляй её ждать долго.",a:""},
+  {q:"Смейся там, где другие плачут.",a:"Илья"},
+  {q:"Жизнь о которой мечтаешь — по ту сторону работы от которой бежишь.",a:"Илья"},
+  {q:"Амбиция — это не желание. Это решение.",a:""},
+  {q:"Один сделанный шаг лучше тысячи задуманных.",a:""},
+  {q:"Мозг запоминает победы — дай ему их.",a:""},
+  {q:"Бог не поместил бы такую мечту в сердце, если бы ты не мог достичь её.",a:""},
+  {q:"Иногда Бог разрушает наши планы, когда видит что наши планы разрушат нас.",a:"Илья"},
+  {q:"Нет плохих событий — есть непонятые благословения.",a:"Илья"},
+  {q:"Покой не строится — ему позволяют быть.",a:"Илья"},
+  {q:"Когда идёшь верным путём — даже трудности становятся знаками.",a:""},
+  {q:"Твой характер строится не в радости — а в том, как ты держишься в темноте.",a:""},
+  {q:"Бог смотрит не на результат — а на то, встал ли ты снова.",a:""},
+  {q:"Настоящая сила — это не отсутствие страха. Это вера, которая сильнее страха.",a:""},
+  {q:"Ты не случаен. Каждый твой шаг был задуман раньше, чем ты сделал первый вдох.",a:""},
+  {q:"Смирение — это не слабость. Это знание, что за тобой стоит кто-то больше тебя.",a:""},
+  {q:"Молись не о лёгком пути — молись о силе пройти трудный.",a:""},
+  {q:"Состояния бесплатны. Ты уже сейчас можешь испытывать то, о чём мечтаешь.",a:"Илья"},
+  {q:"Первый шаг к свободе — осознание своего рабства.",a:"Илья"},
+  {q:"Тот, кто доверяет Богу с закрытыми глазами — видит больше, чем тот, кто смотрит сам.",a:""},
+  {q:"Ты создан не для выживания. Ты создан для победы.",a:""},
+];
+const PRAISES2=["Красавчик.","Вот это движение.","Так держать.","Ты молодец.","Это уже победа.","Работаешь.","Уважаю.","Без остановок.","Не зря.","Продолжай."];
+let lastQIdx=-1;
+function rndQ(){let i;do{i=Math.floor(Math.random()*AQ.length);}while(i===lastQIdx);lastQIdx=i;return AQ[i];}
+function showQ(q){document.getElementById('qt').textContent='\u00ab'+q.q+'\u00bb';document.getElementById('qa').textContent=q.a?'\u2014 '+q.a:'';const c=document.getElementById('qc');c.classList.add('new');setTimeout(()=>c.classList.remove('new'),2000);}
+function nextQuote(){showQ(rndQ());}
+let popTimer=null,debounceTimer=null;
+function schedulePopup(){if(debounceTimer)clearTimeout(debounceTimer);debounceTimer=setTimeout(()=>{showPopup();debounceTimer=null;},2000);}
+function showPopup(){
+  const done=tasks.filter(t=>t.done).length,left=tasks.filter(t=>!t.done).length;
+  if(done===0)return;
+  const q=rndQ(),praise=PRAISES2[Math.floor(Math.random()*PRAISES2.length)];
+  document.getElementById('popPraise').textContent=praise;
+  document.getElementById('popDoneLbl').textContent=done+' '+doneWord(done)+' сегодня';
+  document.getElementById('popQuote').textContent='\u00ab'+q.q+'\u00bb';
+  document.getElementById('popAuthor').textContent=q.a?'\u2014 '+q.a:'';
+  const lv=leftVerb(left);
+  document.getElementById('popStats').innerHTML=left===0?'<b>Все задачи выполнены.</b> Ты сделал это.':lv.charAt(0).toUpperCase()+lv.slice(1)+' ещё <b>'+left+' '+taskWord(left)+'</b> — ты близко к завершению.';
+  document.getElementById('popOverlay').classList.add('show');
+  playChime();
+  const fill=document.getElementById('popTimerFill');
+  fill.style.transition='none';fill.style.transform='scaleX(1)';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{fill.style.transition='transform 8s linear';fill.style.transform='scaleX(0)';}));
+  if(popTimer)clearTimeout(popTimer);popTimer=setTimeout(closePopup,8000);
+}
+function closePopup(){document.getElementById('popOverlay').classList.remove('show');if(popTimer)clearTimeout(popTimer);}
+function sunP(p){return{x:126-100*Math.cos(Math.PI*p),y:110-100*Math.sin(Math.PI*p)};}
+function sunR(p){return lerp(14,9,Math.sin(Math.PI*p));}
+function starsOp(p){if(p<0.2)return lerp(0.88,0,p/0.2);if(p>0.78)return lerp(0,0.9,(p-0.78)/0.22);return 0;}
+function moonOp(p){return p>0.86?lerp(0,0.82,(p-0.86)/0.14):0;}
+const NSTEPS=10;
+const SGG=document.getElementById('stepGlows'),STPG=document.getElementById('steps');
+for(let i=0;i<NSTEPS;i++){
+  const sx=4+i*23,sy=101-i*6;
+  const gl=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+  gl.setAttribute('cx',sx+11);gl.setAttribute('cy',sy+5);gl.setAttribute('rx','12');gl.setAttribute('ry','3');
+  gl.setAttribute('fill','#c9a84c');gl.setAttribute('opacity','0');gl.id='sgl'+i;SGG.appendChild(gl);
+  const sb=document.createElementNS('http://www.w3.org/2000/svg','rect');
+  sb.setAttribute('x',sx);sb.setAttribute('y',sy);sb.setAttribute('width','22');sb.setAttribute('height','6');sb.setAttribute('rx','1.2');sb.id='sb'+i;STPG.appendChild(sb);
+  const st=document.createElementNS('http://www.w3.org/2000/svg','rect');
+  st.setAttribute('x',sx);st.setAttribute('y',sy);st.setAttribute('width','22');st.setAttribute('height','2');st.setAttribute('rx','1');st.id='st'+i;STPG.appendChild(st);
+}
+function charSVG(cx,cy,p){
+  const oc=p<0.25?'#1c3c6e':p<0.5?'#1c1c4e':p<0.78?'#0e0e1e':'#c9a84c';
+  const sc=p>=0.78?'#c9a84c':'#111';
+  const crown=p>=0.88,tie=p>=0.5,watch=p>=0.65;
+  let s='';
+  if(crown)s+='<polygon points="'+cx+','+(cy-14)+' '+(cx+2.5)+','+(cy-10)+' '+(cx+6)+','+(cy-12)+' '+(cx+4)+','+(cy-7)+' '+(cx-4)+','+(cy-7)+' '+(cx-6)+','+(cy-12)+' '+(cx-2.5)+','+(cy-10)+'" fill="#c9a84c"/>';
+  s+='<circle cx="'+cx+'" cy="'+cy+'" r="6" fill="#f0c090"/>';
+  s+='<circle cx="'+(cx-2.3)+'" cy="'+(cy-.7)+'" r="2.1" fill="#111"/>';
+  s+='<circle cx="'+(cx+2.3)+'" cy="'+(cy-.7)+'" r="2.1" fill="#111"/>';
+  s+='<circle cx="'+(cx-1.3)+'" cy="'+(cy-1.8)+'" r=".8" fill="rgba(255,255,255,.65)"/>';
+  s+='<circle cx="'+(cx+3.3)+'" cy="'+(cy-1.8)+'" r=".8" fill="rgba(255,255,255,.65)"/>';
+  s+='<path d="M'+(cx-1.8)+','+(cy+3)+' Q'+cx+','+(cy+5.5)+' '+(cx+1.8)+','+(cy+3)+'" stroke="#cc5555" stroke-width="1.2" fill="none" stroke-linecap="round"/>';
+  s+='<rect x="'+(cx-5)+'" y="'+(cy+6)+'" width="10" height="9" rx="2.2" fill="'+oc+'"/>';
+  if(tie)s+='<polygon points="'+cx+','+(cy+7)+' '+(cx+1.5)+','+(cy+11)+' '+cx+','+(cy+13)+' '+(cx-1.5)+','+(cy+11)+'" fill="'+(crown?'#fff':'#c9a84c')+'" opacity=".9"/>';
+  if(watch)s+='<rect x="'+(cx+3.5)+'" y="'+(cy+7)+'" width="5.5" height="3.5" rx="1.2" fill="#c9a84c" opacity=".85"/>';
+  s+='<rect x="'+(cx-9)+'" y="'+(cy+6)+'" width="5" height="8" rx="2.5" fill="'+oc+'"/>';
+  s+='<rect x="'+(cx+4)+'" y="'+(cy+6)+'" width="5" height="8" rx="2.5" fill="'+oc+'"/>';
+  s+='<circle cx="'+(cx-6.5)+'" cy="'+(cy+15)+'" r="3" fill="#f0c090"/>';
+  s+='<circle cx="'+(cx+6.5)+'" cy="'+(cy+15)+'" r="3" fill="#f0c090"/>';
+  s+='<rect x="'+(cx-5.5)+'" y="'+(cy+16)+'" width="5" height="9" rx="1.5" fill="'+(p>=0.78?'#6a5020':oc)+'"/>';
+  s+='<rect x="'+(cx+.5)+'" y="'+(cy+16)+'" width="5" height="9" rx="1.5" fill="'+(p>=0.78?'#6a5020':oc)+'"/>';
+  s+='<ellipse cx="'+(cx-3)+'" cy="'+(cy+26)+'" rx="6.5" ry="3.5" fill="'+sc+'"/>';
+  s+='<ellipse cx="'+(cx+3.5)+'" cy="'+(cy+26)+'" rx="6.5" ry="3.5" fill="'+sc+'"/>';
+  return s;
+}
+function updScene(pct){
+  const p=pct/100;
+  document.getElementById('sky').setAttribute('fill',H(lC(SKY,p)));
+  const sp=sunP(p),sr=sunR(p),sunC=lC(SC2,p);
+  ['sun','sunI','sgm','sgb'].forEach(id=>{const e=document.getElementById(id);e.setAttribute('cx',sp.x);e.setAttribute('cy',sp.y);});
+  document.getElementById('sun').setAttribute('r',sr);document.getElementById('sun').setAttribute('fill',H(sunC));
+  document.getElementById('sunI').setAttribute('r',sr*.55);document.getElementById('sunI').setAttribute('opacity',lerp(.15,.5,Math.sin(Math.PI*p)));
+  document.getElementById('sgm').setAttribute('r',sr*3);document.getElementById('sg1').setAttribute('stop-color',H(sunC));document.getElementById('sg2').setAttribute('stop-color',H(sunC));
+  document.getElementById('sgb').setAttribute('fill',H(sunC));document.getElementById('sgb').setAttribute('opacity',sp.y<102?.1:0);
+  document.getElementById('ag1').setAttribute('stop-color',H(lC(AC,p)));document.getElementById('atm').setAttribute('cx',sp.x);
+  document.getElementById('stars').setAttribute('opacity',starsOp(p));
+  const mOp=moonOp(p);document.getElementById('moon').setAttribute('opacity',mOp);document.getElementById('moonS').setAttribute('opacity',mOp*.92);
+  const cs=Math.min(Math.floor(p*10),9);
+  for(let i=0;i<NSTEPS;i++){
+    const lit=i<cs||(i===cs&&pct>0);
+    document.getElementById('sb'+i).setAttribute('fill',lit?'#1e200a':'#111808');
+    document.getElementById('st'+i).setAttribute('fill',lit?H(sunC):'#1e1e0a');
+    document.getElementById('st'+i).setAttribute('opacity',lit?'.9':'.2');
+    document.getElementById('sgl'+i).setAttribute('opacity',i===cs&&pct>0?'.4':lit?'.08':'0');
+  }
+  const sty=101-cs*6,cx=4+cs*23+11,cy=sty-29;
+  document.getElementById('char').innerHTML=charSVG(cx,cy,p);
+  document.getElementById('progPhrase').textContent=PHRASES[Math.min(Math.floor(p*10),10)].toUpperCase();
+  document.getElementById('barFill').style.width=pct+'%';
+}
+function fk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function gA(){return JSON.parse(localStorage.getItem('pet')||'{}');}
+function sA(d){localStorage.setItem('pet',JSON.stringify(d));}
+function gT(k){return gA()[k]||[];}
+function sT(k,t){const a=gA();a[k]=t;sA(a);}
+const TK=fk(new Date());
+let tasks=gT(TK),wo=0;
+function sw(tab){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',(i===0&&tab==='today')||(i===1&&tab==='week')));
+  document.getElementById('v-today').classList.toggle('active',tab==='today');
+  document.getElementById('v-week').classList.toggle('active',tab==='week');
+  if(tab==='week')rW();
+}
+function render(){
+  const tot=tasks.length,dn=tasks.filter(t=>t.done).length,lft=tot-dn;
+  const pct=tot===0?0:Math.round((dn/tot)*100);
+  document.getElementById('pct').textContent=pct+'%';
+  document.getElementById('dn').textContent=dn;
+  document.getElementById('tt').textContent=tot;
+  document.getElementById('lf').textContent=lft;
+  updScene(pct);
+  const p=tasks.filter(t=>!t.done),d=tasks.filter(t=>t.done);
+  const pl=document.getElementById('pl'),dl=document.getElementById('dl');
+  pl.innerHTML=p.length===0?'<div class="emp"><div class="ei">\u25c7</div><p>\u0414\u043e\u0431\u0430\u0432\u044c \u0437\u0430\u0434\u0430\u0447\u0438<br>\u0438 \u043d\u0430\u0447\u043d\u0451\u0442\u0441\u044f \u0440\u0430\u0441\u0441\u0432\u0435\u0442</p></div>':'';
+  p.forEach(t=>pl.appendChild(mkEl(t)));
+  dl.innerHTML='';d.forEach(t=>dl.appendChild(mkEl(t)));
+  document.getElementById('dsec').style.display=d.length>0?'block':'none';
+  sT(TK,tasks);
+}
+function mkEl(t){
+  const el=document.createElement('div');el.className='ti2'+(t.done?' done':'');
+  el.innerHTML='<div class="tc"><span class="ck">\u2713</span></div><div class="tif"><div class="tn">'+t.name+'</div></div><div class="td2">\u2715</div>';
+  el.querySelector('.tc').addEventListener('click',()=>tog(t.id));
+  el.querySelector('.tn').addEventListener('click',()=>tog(t.id));
+  el.querySelector('.td2').addEventListener('click',(e)=>{e.stopPropagation();del(t.id);});
+  return el;
+}
+function addT(){
+  const inp=document.getElementById('inp');const nm=inp.value.trim();if(!nm){inp.focus();return;}
+  tasks.push({id:Date.now().toString(),name:nm,done:false});inp.value='';render();
+}
+function tog(id){
+  const t=tasks.find(t=>t.id===id);if(!t)return;t.done=!t.done;render();
+  if(t.done){showQ(rndQ());schedulePopup();}
+}
+function del(id){tasks=tasks.filter(t=>t.id!==id);render();}
+function gWD(off){
+  const td=new Date(),dow=td.getDay()===0?6:td.getDay()-1;
+  const mn=new Date(td);mn.setDate(td.getDate()-dow+(off*7));mn.setHours(0,0,0,0);
+  return Array.from({length:7},(_,i)=>{const d=new Date(mn);d.setDate(mn.getDate()+i);return d;});
+}
+function cW(d){wo+=d;rW();}
+function rW(){
+  const days=gWD(wo),all=gA(),td=new Date();td.setHours(0,0,0,0);
+  const DN=['\u041f\u043d','\u0412\u0442','\u0421\u0440','\u0427\u0442','\u041f\u0442','\u0421\u0431','\u0412\u0441'];
+  const f=days[0],l=days[6];
+  document.getElementById('wl').textContent=f.getDate()+' '+MNF[f.getMonth()]+' \u2014 '+l.getDate()+' '+MNF[l.getMonth()];
+  const g=document.getElementById('wg');g.innerHTML='';
+  let wT=0,wD=0,wM=0;const mT=[];
+  days.forEach((d,i)=>{
+    d.setHours(0,0,0,0);const k=fk(d),tk=fk(td);
+    const dt=k===tk?tasks:(all[k]||[]);
+    const tot=dt.length,dn2=dt.filter(t=>t.done).length,ms=dt.filter(t=>!t.done).length;
+    const p2=tot===0?0:Math.round((dn2/tot)*100);
+    const ip=d<td,it=k===tk;
+    wT+=tot;wD+=dn2;if(ip)wM+=ms;
+    if(ip&&ms>0)dt.filter(t=>!t.done).forEach(t=>mT.push({n:t.name,d:d.getDate()+' '+MNF[d.getMonth()]}));
+    const bh=tot===0?2:Math.max(4,Math.round((p2/100)*28));
+    const bc=tot>0&&ip&&ms>0?'bm':tot>0&&(it||ip)?'bdo':'be';
+    const pc=tot>0&&ip&&ms>0?'pm':tot>0&&(it||ip)?'pd':'pe';
+    const c=document.createElement('div');c.className='dc'+(it?' today':'');
+    c.innerHTML='<div class="dn2">'+DN[i]+'</div><div class="dnum">'+d.getDate()+'</div><div class="dbw"><div class="db '+bc+'" style="height:'+bh+'px"></div></div><div class="dpct '+pc+'">'+(tot===0?'\u2014':p2+'%')+'</div>'+(ip&&ms>0?'<div class="ddot"></div>':'');
+    g.appendChild(c);
+  });
+  const wp=wT===0?0:Math.round((wD/wT)*100);
+  const wmW=taskWord(wM);
+  document.getElementById('ws').innerHTML='<div class="srow2"><span class="slab2">\u0412\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u043e \u0437\u0430 \u043d\u0435\u0434\u0435\u043b\u044e</span><span class="sv2 vg">'+wD+' / '+wT+'</span></div><div class="srow2"><span class="slab2">\u041f\u0440\u043e\u0446\u0435\u043d\u0442 \u0432\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u044f</span><span class="sv2 vg">'+wp+'%</span></div><div class="srow2"><span class="slab2">\u041f\u0440\u043e\u043f\u0443\u0449\u0435\u043d\u043e</span><span class="sv2 '+(wM>0?'vr':'vm')+'">'+wM+' '+wmW+'</span></div>';
+  const mc=document.getElementById('mc');
+  if(mT.length>0){
+    mc.innerHTML='<div class="slb" style="color:var(--rb);-webkit-text-fill-color:var(--rb)">\u041d\u0435\u0432\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u043d\u044b\u0435</div>';
+    const ls=document.createElement('div');ls.className='ms';
+    mT.forEach(t=>{const el=document.createElement('div');el.className='mi';el.innerHTML='<span class="mn2">'+t.n+'</span><span class="md">'+t.d+'</span>';ls.appendChild(el);});
+    mc.appendChild(ls);
+  }else mc.innerHTML='';
+}
+function setDate(){
+  const d=new Date();
+  const DA=['\u0412\u043e\u0441\u043a\u0440\u0435\u0441\u0435\u043d\u044c\u0435','\u041f\u043e\u043d\u0435\u0434\u0435\u043b\u044c\u043d\u0438\u043a','\u0412\u0442\u043e\u0440\u043d\u0438\u043a','\u0421\u0440\u0435\u0434\u0430','\u0427\u0435\u0442\u0432\u0435\u0440\u0433','\u041f\u044f\u0442\u043d\u0438\u0446\u0430','\u0421\u0443\u0431\u0431\u043e\u0442\u0430'];
+  document.getElementById('hdt').textContent=DA[d.getDay()]+', '+d.getDate()+' '+MNF[d.getMonth()];
+}
+document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter')addT();});
+setDate();showQ(AQ[0]);render();
+</script>
+</body></html>
